@@ -25,50 +25,52 @@
   <div class="row">
     <div class="col-lg-8 pl-lg-0">
       <div class="card card-details">
-        <h2> Nusa Peninda </h2>
+        
+        <h1>{{ $item->title }} </h1>
         <p>
-          Republik Of Indonesia Raya
+          {{ $item->location }}
         </p>
+     
+
+        @if ($item->galleries->count())
         <div class="gallery">
 
           <div class="xzoom-container">
-            <img src="frontend/images/hd-wallpapers-beijing-blured-forbidden-city-full-hd-wallpaper.jpg" class="xzoom" id="xzoom-default" xoriginal="frontend/images/hd-wallpapers-beijing-blured-forbidden-city-full-hd-wallpaper.jpg">
+            <img src="{{ Storage::url($item->galleries->first()->image) }}" class="xzoom" id="xzoom-default" xoriginal="{{ Storage::url($item->galleries->first()->image) }}" height="550px">
           </div>
 
           <div class="xzoom-thumbs">
-            <a href="frontend/images/japan-kyoto-toji-pagoda.jpg">
-            <img src="frontend/images/japan-kyoto-toji-pagoda.jpg" class="xzoom-gallery" width="128" xpreview="frontend/images/japan-kyoto-toji-pagoda.jpg">
-            </a>
-
-            <a href="frontend/images/170606121226-japan---travel-destination---shutterstock-230107657.jpg">
-              <img src="frontend/images/170606121226-japan---travel-destination---shutterstock-230107657.jpg" class="xzoom-gallery" width="128" xpreview="frontend/images/170606121226-japan---travel-destination---shutterstock-230107657.jpg">
+            @foreach ($item->galleries as $gallery)
+            <a href="{{ Storage::url($gallery->image) }}">
+              <img src="{{ Storage::url($gallery->image) }}" class="xzoom-gallery" width="128" xpreview="{{ Storage::url($gallery->image) }}">
               </a>
-
-              <a href="frontend/images/150787.jpg">
-                <img src="frontend/images/150787.jpg" class="xzoom-gallery" width="128" xpreview="frontend/images/150787.jpg">
-                </a>
+            @endforeach     
           </div>
         </div>
+        @endif
+
         <h2> Tentang Wisata </h2>
-        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora repellat id ea aut distinctio architecto cumque quidem temporibus earum hic? </p>
+        <p>
+        {!! $item->aboust !!}  
+        </p>
 
         <div class="featerus row">
           <div class="col-md-4">
             <div class="description">
-              <img width="40px" src="frontend/images/photo_2018-03-22_05-50-40.jpg" class="featerus-image">
+              <img width="40px" src="{{  url('frontend/images/photo_2018-03-22_05-50-40.jpg') }}" class="featerus-image">
               <div class="description">
                 <h3>Featerud Event</h3>
-              <p> Tari Kecak </p>
+              <p> {{ $item->featured_event }} </p>
               </div>
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="description">
-              <img width="40px" src="frontend/images/unuja.jpg" class="featerus-image">
+              <img width="40px" src="{{ url('frontend/images/unuja.jpg') }}" class="featerus-image">
               <div class="description">
                 <h3>Languange</h3>
-                <p> English </p>
+                <p> {{ $item->languange }} </p>
               </div>
             </div>
           </div>
@@ -76,10 +78,10 @@
 
           <div class="col-md-4">
             <div class="description">
-              <img width="40px" src="frontend/images/photo_2019-07-24_00-29-27.jpg" class="featerus-image">
+              <img width="40px" src="{{ url('frontend/images/photo_2019-07-24_00-29-27.jpg') }}" class="featerus-image">
               <div class="description">
                 <h3>Foods</h3>
-                <p> Local Foods </p>
+                <p>{{$item->foods}}</p>
               </div>
             </div>
           </div>
@@ -93,15 +95,15 @@
   <div class="card card-details card-right">
     <h2> Member Are Going </h2>
     <div class="members my-2">
-      <img src="frontend/images/hafid.png" class="member-image rounded-circle mr-1"
+      <img src="{{ url('frontend/images/hafid.png') }}" class="member-image rounded-circle mr-1"
       />
-      <img src="frontend/images/didik.png" class="member-image rounded-circle mr-1"
+      <img src="{{  url('frontend/images/didik.png')  }}" class="member-image rounded-circle mr-1"
       />
-      <img src="frontend/images/sam.png" class="member-image rounded-circle mr-1"
+      <img src="{{  url('frontend/images/sam.png')  }}" class="member-image rounded-circle mr-1"
       />
-      <img src="frontend/images/unuja.jpg" class="member-image rounded-circle mr-1"
+      <img src="{{  url('frontend/images/unuja.jpg')  }}" class="member-image rounded-circle mr-1"
       />
-      <img src="frontend/images/photo_2018-03-22_05-50-40.jpg" class="member-image rounded-circle mr-1"
+      <img src="{{  url('frontend/images/photo_2018-03-22_05-50-40.jpg')  }}" class="member-image rounded-circle mr-1"
       />
     </div>
     <hr>
@@ -110,33 +112,44 @@
       <tr>
         <th width="50%">Date Of Departure</th>
         <td width="50%" class="text-right">
-          22 Aug 2019
+        {{\Carbon\Carbon::create($item->departure_date)->format('n F Y')}}
         </td>
         <tr>
           <th width="50%">Duration</th>
           <td width="50%" class="text-right">
-            40 MIN
+           {{$item->duration}}
           </td>
           <tr>
             <th width="50%">Type</th>
             <td width="50%" class="text-right">
-             Open Trip
+             {{ $item->type }}
             </td>
             <tr>
               <th width="50%">Price</th>
               <td width="50%" class="text-right">
-                $100 / Person
+               ${{ $item->price }},00 / Person
               </td>
       </tr>
     </table>
   </div>
 
   <div class="join-container">
-    <a href="#" class="btn btn-block btn-join-now mt-3 py-2">
-      Join Now
-    </a>
+    @auth
+        
+    <form action="{{ route('checkout-process',$item->id) }}" method="post">
+      @csrf
+      <button class="btn btn-block btn-join-now mt-3 py-2">
+        Join Now
+      </button>
+    </form>
+    @endauth
+    @guest
+        <a href="{{ route('login') }}" class="btn btn-block btn-join-now mt-3 py-2">
+        Login or Register to Join
+        </a>
+    @endguest
   </div>
-
+  
 </div>
 
   </div>

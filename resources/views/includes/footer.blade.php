@@ -32,7 +32,7 @@
                 <div class="col-12 col-lg-3">
                   <h5> Get Connected </h5>
                   <ul class="list-unstyled">
-                    <li><a href="#">Jakarta Selatan</a></li>
+                    <li><a href="#">Jambekumbu - Lumajang</a></li>
                     <li><a href="#">Indonesia</a></li>
                     <li><a href="#">0001 - 0111 - 0000 - 0111</a></li>
                     <li><a href="#">hafidz@nomads.com</a></li>
@@ -46,8 +46,8 @@
     </div>
   </div>
 
-  <div class="container-fluid">
-    <div class="row border-top justify-content-center align-items-center pt-4 ">
+  <div class="container-fluid text-white">
+    <div class="row border-top justify-content-center align-items-center py-3">
       <div class="col-auto text-gray-500 font-weight-light">
           2019 Copyright Nomads . All rights reserved
       </div>
