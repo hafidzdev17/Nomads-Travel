@@ -3,6 +3,7 @@
 @section('title','Detail Travel')
 @section('content')
 <main>
+
     <section class="section-details-header mb-4 mt-1"></section>
     <section class="section-details-content">
         <div class="container">
